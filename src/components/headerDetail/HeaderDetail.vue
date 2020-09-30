@@ -19,7 +19,7 @@
       </div>
       <ul v-if="seller.supports" class="supports">
         <li class="support-item" v-for="(item, index) in seller.supports" :key="index">
-          <span class="icon" :class="classMap[seller.supports[$index].type]"></span>
+          <support-ico :size=2 type="seller.supports[$index].type"></support-ico>
           <span class="text">{{seller.supports[$index].description}}</span>
         </li>
       </ul>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-// import SupportIco from '@/components/support-ico/support-ico'
+import SupportIco from '@/components/support-ico/support-ico'
 import Star from '@/components/star/Star'
 export default {
   props: {
@@ -37,7 +37,7 @@ export default {
     }
   },
   components: {
-    // SupportIco,
+    SupportIco,
     Star
   }
 }

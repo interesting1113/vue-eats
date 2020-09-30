@@ -44,12 +44,12 @@
             <div class="line"></div>
           </div>
         </div>
-        <!-- <ul v-if="seller.supports" class="supports">
+        <ul v-if="seller.supports" class="supports">
         <li class="support-item" v-for="(item, index) in seller.supports" :key="index">
           <span class="icon"></span>
           <span class="text"></span>
         </li>
-        </ul> -->
+        </ul>
         <div class="title">
           <div class="line"></div>
           <div class="text">商家公告</div>
@@ -241,6 +241,7 @@ export default {
           width: 80%
           margin: 0 auto
           .support-item
+            list-style: none
             padding: 0 12px
             margin-bottom: 12px
             font-size: 0
