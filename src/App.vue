@@ -23,9 +23,10 @@ export default {
     getGoods() {
       this.$axios.get('api/goods')
         .then(res => {
-          console.log(res.data)
-          console.log(res.data.code)
-          console.log(res.data.msg)
+          const { data } = res.data
+          if (data.code === 0) {
+            this.poiInfo = data.data.poi_info
+          }
         })
     }
   },

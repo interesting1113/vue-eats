@@ -17,6 +17,9 @@ module.exports = {
     'prefer-const': 0,
     'no-useless-retur ': 0,
     "eol-last": 0,
-    "eqeqeq":0
+    "eqeqeq":0,
+    "no-useless-return": 0,
+    "no-new": 0,
+    "no-unused-components": 0
   }
 }

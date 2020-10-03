@@ -21,20 +21,73 @@
     <!-- 主题内容 开始 -->
     <div class="content-wrapper">
       <div class="icon" :style="head_bg"></div>
+      <div class="name">{{ poiInfo.name }}</div>
+      <div class="collect">
+        <img src="./img/star.png" />
+        <span>收藏</span>
+      </div>
     </div>
     <!-- 主题内容 结束 -->
     <!-- 公告内容 开始 -->
+    <div class="bulletin-wrapper" @click="showBulletin">
+      <img class="icon" v-if="poiInfo.discounts2" :src="poiInfo.discounts2[0] .icon_url">
+      <span class="text" v-if="poiInfo.discounts2">{{poiInfo.discounts2[0].info}}</span>
+      <div class="detail" v-if="poiInfo.discounts2">
+        {{ poiInfo.discounts2.length }}个活动
+        <span class="icon-keyboard_arrow_right"></span>
+      </div>
+    </div>
     <!-- 公告内容 结束 -->
-    <!-- 背景 开始 -->
+     <!-- 背景 开始 -->
     <div class="bg-wrapper" :style="head_pic_url"></div>
-
     <!-- 背景 结束 -->
+    <!-- 公告详情 开始 -->
+    <transition name="bulletin-detail">
+      <div class="bulletin-detail" v-show="isShow">
+      <div class="detail-wrapper">
+        <!-- 相关内容容器 -->
+        <div class="main-wrapper" :style="detail_bg">
+          <div class="icon" :style="head_bg"></div>
+          <h3 class="name"> {{ poiInfo.name }}</h3>
+          <!-- 星级评价 -->
+          <div class="score">
+            <star :score="poiInfo.wm_poi_score"></star>
+            <span>{{poiInfo.wm_poi_score}}</span>
+          </div>
+          <p class="tip">
+            {{ poiInfo.min_price_tip}}<i>|</i>{{ poiInfo.shipping_fee_tip}}
+            <i>|</i>{{ poiInfo.delivery_time_tip }}
+          </p>
+          <p class="time">
+            配送时间: {{ poiInfo.shipping_time}}
+          </p>
+          <div class="discounts" v-if="poiInfo.discounts2">
+            <p>
+              <img :src="poiInfo.discounts2[0].icon_url" />
+              <span>{{poiInfo.discounts2[0].info}}</span>
+            </p>
+          </div>
+        </div>
+        <!-- 关闭内容容器 -->
+        <div class="close-wrapper">
+          <span class="icon-close" @click="closeBulletin"></span>
+        </div>
+      </div>
+    </div>
+    </transition>
+    <!-- 公告详情 结束 -->
 
   </div>
 </template>
 
 <script>
+import Star from '@/components/star/Star'
 export default {
+  data() {
+    return {
+      isShow: false
+    }
+  },
   props: {
     poiInfo: {
       type: Object
@@ -46,7 +99,21 @@ export default {
     },
     head_bg() {
       return 'background-image: url(' + this.poiInfo.pic_url + ')'
+    },
+    detail_bg() {
+      return 'background-image: url(' + this.poiInfo.poi_back_pic_url + ')'
     }
+  },
+  methods: {
+    showBulletin() {
+      this.isShow = true
+    },
+    closeBulletin() {
+      this.isShow = false
+    }
+  },
+  components: {
+    Star
   }
 
 }
@@ -62,7 +129,6 @@ export default {
 /* 顶部通栏样式 */
 .header .top-wrapper {
   position: relative;
-  background-color: pink;
 }
 
 .header .top-wrapper .back-wrapper {
@@ -179,6 +245,7 @@ export default {
 .header .content-wrapper .name {
   float: left;
   padding: 18px 0 0 12px;
+  color: #fff;
 }
 
 .header .content-wrapper .name h3 {
