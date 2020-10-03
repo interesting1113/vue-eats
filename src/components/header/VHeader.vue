@@ -1,266 +1,373 @@
 <template>
   <div class="header">
+    <!-- 顶部通栏 -->
+    <div class="top-wrapper">
+      <div class="back-wrapper">
+        <span class="icon-arrow_lift"></span>
+      </div>
+      <form class="search-wrapper">
+        <span class="search-icon"></span>
+        <input type="text" class="search-bar" placeholder="搜索店内商品"/>
+      </form>
+      <div class="more-wrapper">
+        <a href="#" class="spelling-bt">拼单</a>
+        <div class="more-bt">
+          <i class="s-radius"></i>
+          <i class="s-radius"></i>
+          <i class="s-radius"></i>
+        </div>
+      </div>
+    </div>
+    <!-- 主题内容 开始 -->
     <div class="content-wrapper">
-      <div class="avatar">
-        <img :src="seller.avatar" width="64" height="64">
-      </div>
-      <div class="content">
-        <div class="title">
-          <span class="brand"></span>
-          <span class="name">{{ seller.name }}</span>
-        </div>
-        <div class="description">
-          {{ seller.description }}/{{ seller.deliveryTime }}分钟送达
-        </div>
-        <div v-if="seller.supports" class="support">
-          <support-ico :size=1 :type="seller.supports[0].type"></support-ico>
-          <span class="text">{{ seller.supports[0].description }}</span>
-        </div>
-      </div>
-      <div v-if="seller.supports" class="support-count" @click="showDetail">
-        <span class="count">{{ seller.supports.length }}个</span>
-        <i class="icon-keyboard_arrow_right"></i>
-      </div>
+      <div class="icon" :style="head_bg"></div>
     </div>
-    <div class="bulletin-wrapper" @click="showDetail">
-      <span class="bulletin-title"></span>
-      <span class="bulletin-text">{{seller.bulletin}}</span>
-       <i class="icon-keyboard_arrow_right"></i>
-    </div>
-    <div class="background">
-      <img :src="seller.avatar" width="100%" height="100%">
-    </div>
-    <transition name="fade">
-        <div v-show="detailShow" class="detail">
-      <div class="detail-wrapper" clearfix>
-        <div class="detail-main">
-          <h1 class="name">{{seller.name}}</h1>
-          <div class="star-wrapper">
-            <star :size="48" :score="seller.score"></star>
-          </div>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">优惠信息</div>
-            <div class="line"></div>
-          </div>
-        </div>
-        <ul v-if="seller.supports" class="supports">
-        <li class="support-item" v-for="(item, index) in seller.supports" :key="index">
-          <span class="icon"></span>
-          <span class="text"></span>
-        </li>
-        </ul>
-        <div class="title">
-          <div class="line"></div>
-          <div class="text">商家公告</div>
-        <div class="line"></div>
-      </div>
-      <div class="bulletin">
-        <p class="content">{{seller.bulletin}}</p>
-      </div>
-      </div>
-      <div class="detail-close" @click="hideDetail">
-        <i class="icon-close"></i>
-      </div>
-    </div>
-    </transition>
+    <!-- 主题内容 结束 -->
+    <!-- 公告内容 开始 -->
+    <!-- 公告内容 结束 -->
+    <!-- 背景 开始 -->
+    <div class="bg-wrapper" :style="head_pic_url"></div>
+
+    <!-- 背景 结束 -->
+
   </div>
 </template>
 
 <script>
-import SupportIco from '@/components/support-ico/support-ico'
-import Star from '@/components/star/Star'
 export default {
-  name: 'Header',
   props: {
-    seller: {
+    poiInfo: {
       type: Object
     }
   },
-  data() {
-    return {
-      detailShow: false
-    }
-  },
-  methods: {
-    showDetail() {
-      this.detailShow = true
+  computed: {
+    head_pic_url() {
+      return 'background-image: url(' + this.poiInfo.head_pic_url + ')'
     },
-    hideDetail() {
-      this.detailShow = false
+    head_bg() {
+      return 'background-image: url(' + this.poiInfo.pic_url + ')'
     }
-  },
-  components: {
-    SupportIco,
-    Star
   }
+
 }
 </script>
 
-<style lang="stylus">
-@import '../../common/stylus/mixin'
-.header
-  position: relative
-  overflow: hidden
-  color: #fff
-  background: rgba(7, 17, 27, 0.5)
-  .content-wrapper
-    position: relative
-    padding: 24px 12px 18px 24px
-    font-size: 0
-    .avatar
-      display: inline-block
-      vertical-align: top
-      img
-        border-radius: 2px
-    .content
-      display: inline-block
-      margin-left: 16px
-      .title
-        margin: 2px 0 8px 0
-        .brand
-          display: inline-block
-          vertical-align: top
-          width: 30px
-          height: 18px
-          bg-image('brand')
-          background-size: 30px 18px
-          background-repeat: no-repeat
-        .name
-          margin-left: 6px
-          font-size: 16px
-          line-height: 18px
-          font-weight: bold
-      .description
-        margin-bottom: 10px
-        line-height: 12px
-        font-size: 12px
-      .support
-        .support-ico
-          margin-right: 4px
-        .text
-          line-height: 12px
-          font-size: 10px
-    .support-count
-      position: absolute
-      right: 12px
-      bottom: 14px
-      padding: 0 8px
-      height: 24px
-      line-height: 24px
-      border-radius: 14px
-      background: rgba(0, 0, 0, 0.2)
-      text-align: center
-      .count
-        vertical-align: top
-        font-size: 10px
-      .icon-keyboard_arrow_right
-        margin-left: 2px
-        line-height: 24px
-        font-size: 10px
-  .bulletin-wrapper
-    position: relative
-    height: 28px
-    line-height: 28px
-    padding: 0 22px 0 12px
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
-    background: rgba(7, 17, 27, 0.2)
-    .bulletin-title
-      display: inline-block
-      vertical-align: top
-      margin-top: 8px
-      width: 22px
-      height: 12px
-      bg-image('bulletin')
-      background-size: 22px 12px
-      background-repeat: no-repeat
-    .bulletin-text
-      vertical-align: top
-      margin: 0 4px
-      font-size: 10px
-    .icon-keyboard_arrow_right
-      position: absolute
-      font-size: 10px
-      right: 12px
-      top: 8px
-  .background
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    z-index: -1
-    filter: blur(10px)
-  .detail
-    position: fixed
-    z-index: 100
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    overflow: auto
-    backdrop-filter: blur(10px)
-    opacity: 1
-    background: rgba(7, 17, 27, 0.8)
-    &.fade-enter-active, &.fade-leave-active
-      transition: all 0.5s
-    &.fade-enter, &.fade-leave-active
-      opacity: 0
-      background: rgba(7, 17, 27, 0)
-    .detail-wrapper
-      width: 100%
-      min-height: 100%
-      .detail-main
-        margin-top: 64px
-        padding-bottom: 64px
-        .name
-          line-height: 16px
-          text-align: center
-          font-size: 16px
-          font-weight: 700
-        .star-wrapper
-          margin-top: 18px
-          padding: 2px 0
-          text-align: center
-        .title
-          display: flex
-          width: 80%
-          margin: 28px auto 20px auto
-          .line
-            flex: 1
-            position: relative
-            top: -6px
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2)
-          .text
-            padding: 0 12px
-            font-weight: 700
-            font-size: 14px
-        .supports
-          width: 80%
-          margin: 0 auto
-          .support-item
-            list-style: none
-            padding: 0 12px
-            margin-bottom: 12px
-            font-size: 0
-            &:last-child
-              margin-bottom: 0
-            .text
-              line-height: 12px
-        .bulletin
-          width: 80%
-          margin: 0 auto
-          .content
-            padding: 0 12px
-            line-height: 24px
-            font-size: 12px
-    .detail-close
-      position: relative
-      width: 32px
-      height: 32px
-      margin: -64px auto 0 auto
-      clear: both
-      font-size: 32px
+<style scoped>
+@import url(../../common/css/icon.css);
+.header{
+  height: 130px;
+  padding-top: 20px;
+}
+
+/* 顶部通栏样式 */
+.header .top-wrapper {
+  position: relative;
+  background-color: pink;
+}
+
+.header .top-wrapper .back-wrapper {
+  width: 50px;
+  height: 31px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  line-height: 31px;
+}
+
+.header .top-wrapper .back-wrapper span {
+  display: inline-block;
+  color: white;
+}
+
+.header .top-wrapper .search-wrapper {
+  width: 100%;
+  height: 31px;
+  /* background: pink; */
+  padding: 0 104px 0 50px;
+  /* 设置盒子从边框开始计算*/
+  box-sizing: border-box;
+}
+
+.header .top-wrapper .search-wrapper .search-icon {
+  width: 28px;
+  height: 31px;
+  background: url(./img/search.png) no-repeat 11px center;
+  background-size: 13px 13px;
+  position: absolute;
+}
+
+.header .top-wrapper .search-wrapper .search-bar {
+  width: 100%;
+  height: 31px;
+  border: 0;
+  /* 设置盒子从边框开始计算*/
+  box-sizing: border-box;
+  background: #cdcdcc;
+  border-radius: 25px;
+  padding-left: 28px;
+  /* 去除选中时蓝色边框*/
+  outline: none;
+}
+
+.header .top-wrapper .more-wrapper {
+  width: 65px;
+  height: 24px;
+  /* background: orange; */
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 7px 15px 0 24px;
+}
+.header .top-wrapper .more-wrapper .spelling-bt {
+  width: 30px;
+  height: 17px;
+  color: white;
+  line-height: 17px;
+  border: 1px solid white;
+  text-align: center;
+  float: left;
+  text-decoration: none;
+  font-size: 10px;
+}
+
+.header .top-wrapper .more-wrapper .more-bt {
+  float: right;
+  width: 20px;
+  height: 24px;
+  margin-left: 13px;
+  margin-top: 6px;
+}
+
+.header .top-wrapper .more-wrapper .more-bt .s-radius {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  border: 1px solid white;
+  display: block;
+  float: left;
+  margin-right: 1px;
+}
+
+/* 背景图片样式 */
+.header .bg-wrapper {
+  width: 100%;
+  height: 150px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  background-size: 100% 135%;
+  background-position: center -12px;
+}
+
+/* 主题内容 样式 */
+.header .content-wrapper {
+  padding: 17px 10px 11px;
+  height: 50px;
+}
+
+.header .content-wrapper .icon {
+  width: 50px;
+  height: 50px;
+  background-size: 135% 100%;
+  background-position: center;
+  border-radius: 5px;
+  float: left;
+}
+
+.header .content-wrapper .name {
+  float: left;
+  padding: 18px 0 0 12px;
+}
+
+.header .content-wrapper .name h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.header .content-wrapper .collect {
+  width: 25px;
+  height: 37px;
+  float: right;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.header .content-wrapper .collect img {
+  width: 20px;
+  height: 20px;
+}
+
+.header .content-wrapper .collect span {
+  margin-top: 7px;
+  color: white;
+  font-size: 11px;
+}
+
+/* 公告内容样式 */
+.header .bulletin-wrapper {
+  height: 16px;
+  padding: 0 10px;
+}
+
+.header .bulletin-wrapper .icon {
+width: 16px;
+height: 16px;
+float: left;
+margin-right: 6px;
+}
+
+.header .bulletin-wrapper .text {
+font-size: 11px;
+color: white;
+float: left;
+line-height: 16px;
+}
+
+.header .bulletin-wrapper .detail {
+color: white;
+float: right;
+font-size: 11px;
+line-height: 16px;
+}
+
+.header .bulletin-wrapper .detail span {
+font-size: 16px;
+line-height: 16px;
+float: right;
+}
+
+/* 公告详情 样式 */
+.header .bulletin-detail {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(98, 98, 98, 0.8);
+  z-index: 999;
+}
+
+.header .bulletin-detail .detail-wrapper {
+  width: 100%;
+  height: 100%;
+  padding: 43px 20px 125px;
+  box-sizing: border-box;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper {
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .icon {
+  width: 60px;
+  height: 60px;
+  background-size: 135% 100%;
+  background-position: center;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 40px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .name {
+  font-size: 15px;
+  color: white;
+  margin-top: 13px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .score {
+  height: 10px;
+  margin-top: 6px;
+  text-align: center;
+  font-size: 0;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .score .star {
+  display: inline-block;
+  margin-right: 7px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .score span {
+  display: inline-block;
+  font-size: 10px;
+  color: white;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .tip {
+  font-size: 11px;
+  color: #bababc;
+  margin-top: 8px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .tip i {
+  margin: 0 7px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .time {
+  font-size: 11px;
+  color: #bababc;
+  margin-top: 13px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .discounts {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .discounts p {
+  padding-top: 20px;
+  border-top: 1px solid #BABABC;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .discounts img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.header .bulletin-detail .detail-wrapper .main-wrapper .discounts span {
+  font-size: 11px;
+  line-height: 16px;
+  color: white;
+}
+
+.header .bulletin-detail .detail-wrapper .close-wrapper {
+  padding-top: 20px;
+  height: 40px;
+  text-align: center;
+}
+
+.header .bulletin-detail .detail-wrapper .close-wrapper span {
+width: 40px;
+height: 40px;
+line-height: 40px;
+border-radius: 50%;
+font-size: 14px;
+color: white;
+display: inline-block;
+background: rgba(118, 118, 118, 0.7);
+border: 1px solid rgba(140, 140, 140, 0.9);
+}
+
+/* 动画效果 */
+.bulletin-detail-enter-active,
+.bulletin-detail-leave-active {
+transition: 2s all;
+}
+
+.bulletin-detail-enter,
+.bulletin-detail-leave-to {
+opacity: 0;
+}
+
+.bulletin-detail-enter-to,
+.bulletin-detail-leave {
+opacity: 1;
+}
 </style>
