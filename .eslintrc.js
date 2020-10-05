@@ -20,6 +20,7 @@ module.exports = {
     "eqeqeq":0,
     "no-useless-return": 0,
     "no-new": 0,
-    "no-unused-components": 0
+    "no-unused-components": 0,
+    "equire-valid-default-prop": 0
   }
 }

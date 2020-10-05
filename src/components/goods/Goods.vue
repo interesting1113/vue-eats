@@ -54,21 +54,29 @@
                   <span class="unit">/{{ item.unit }}</span>
                 </p>
               </div>
+              <div class="cart-control-wrapper">
+                <cart-control></cart-control>
+              </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <!-- 购物车 -->
+    <shop-cart :poiInfo="poiInfo"></shop-cart>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
+import ShopCart from '@/components/shopCart/ShopCart'
+import CartControl from '@/components/cartControl/CartControl'
 export default {
   data() {
     return {
       container: {},
       goods: [],
+      poiInfo: [],
       listHeight: [],
       menuScroll: {},
       foodScroll: {},
@@ -100,6 +108,7 @@ export default {
           if (data.code === 0) {
             this.container = data.data.container_operation_source
             this.goods = data.data.food_spu_tags
+            this.poiInfo = data.data.poi_info
             // DOM已经更新
             this.$nextTick(() => {
               // 执行滚动
@@ -141,7 +150,7 @@ export default {
       // console.log(this.listHeight)
     },
     selectMenu(index) {
-      // console.log(index)
+      console.log('000')
       let foodList = this.$refs.foodScroll.getElementsByClassName('food-list-hook')
       let element = foodList[index]
       console.log(element)
@@ -150,7 +159,8 @@ export default {
     }
   },
   components: {
-
+    ShopCart,
+    CartControl
   }
 }
 </script>
@@ -297,7 +307,7 @@ export default {
   margin-top: 1px;
 }
 
-.goods .foods-wrapper .food-list .food-item .cartcontrol-wrapper{
+.goods .foods-wrapper .food-list .food-item .cart-control-wrapper{
   position: absolute;
   right: 0;
   bottom: 0;
