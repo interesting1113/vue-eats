@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-header :poiInfo="poiInfo"></v-header>
-    <v-nav></v-nav>
+    <v-nav :commentNum="commentNum"></v-nav>
     <router-view/>
   </div>
 </template>
@@ -13,11 +13,13 @@ export default {
   name: 'App',
   data() {
     return {
-      poiInfo: {}
+      poiInfo: {},
+      commentNum: 0
     }
   },
   created() {
     this.getGoods()
+    this.getRatings()
   },
   methods: {
     getGoods() {
@@ -26,6 +28,15 @@ export default {
           const { data } = res.data
           if (data.code === 0) {
             this.poiInfo = data.data.poi_info
+          }
+        })
+    },
+    getRatings() {
+      this.$axios.get('api/ratings')
+        .then(res => {
+          const { data } = res.data
+          if (data.code === 0) {
+            this.commentNum = data.data.comment_num
           }
         })
     }

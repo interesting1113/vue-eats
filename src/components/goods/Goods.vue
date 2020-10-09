@@ -5,23 +5,27 @@
       <ul>
         <!-- 专场 -->
         <li class="menu-item"
-            :class="{'current': currentIndex === 0 }"
-            @click="selectMenu(0)">
+            @click="selectMenu(0)"
+            :class="{'current': currentIndex == 0 }"
+        >
           <p class="text">
             <img class="icon" :src="container.tag_icon" v-if="container.tag_icon">
             {{ container.tag_name }}
           </p>
         </li>
         <li class="menu-item"
-            :class="{'current':
-            currentIndex === index+1 }"
+            @click="selectMenu(index+1)"
+            :class="{'current':currentIndex == index+1 }"
             v-for="(item, index) in goods"
             :key="index"
-            @click="selectMenu(index+1)">
+          >
           <p class="text">
             <img class="icon" :src="item.icon" v-if="item.icon">
             {{ item.name}}
           </p>
+          <i class="num" v-show="calculateCount(item.spus)">
+            {{calculateCount(item.spus) }}
+          </i>
         </li>
       </ul>
     </div>
@@ -39,23 +43,28 @@
           <h3 class="title">{{ item.name }}</h3>
           <!-- 具体商品列表 -->
           <ul>
-            <li v-for="(item, index) in item.spus" :key="index" class="food-item">
-              <div class="icon" :style="head_bg(item.picture)"></div>
+            <li
+                v-for="(food, index) in item.spus"
+                :key="index"
+                @click="showDetail(food)"
+                class="food-item"
+            >
+              <div class="icon" :style="head_bg(food.picture)"></div>
               <div class="content">
-                <h3 class="name">{{ item.name }}</h3>
-                <p v-if="item.description" class="desc">{{ item.description }}</p>
+                <h3 class="name">{{ food.name }}</h3>
+                <p v-if="food.description" class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span class="sold">{{ item.month_saled_content }}</span>
-                  <span class="praise">{{ item.praise_content }}</span>
+                  <span class="sold">{{ food.month_saled_content }}</span>
+                  <span class="praise">{{ food.praise_content }}</span>
                 </div>
-                <img class="product" :src="item.product_label_picture">
+                <img class="product" :src="food.product_label_picture">
                 <p class="price">
-                  <span class="text">¥{{ item.min_price }}</span>
-                  <span class="unit">/{{ item.unit }}</span>
+                  <span class="text">¥{{ food.min_price }}</span>
+                  <span class="unit">/{{ food.unit }}</span>
                 </p>
               </div>
               <div class="cart-control-wrapper">
-                <cart-control></cart-control>
+                <cart-control :food="food"></cart-control>
               </div>
             </li>
           </ul>
@@ -63,7 +72,9 @@
       </ul>
     </div>
     <!-- 购物车 -->
-    <shop-cart :poiInfo="poiInfo"></shop-cart>
+    <shop-cart :poiInfo="poiInfo" :selectFoods="selectFoods"></shop-cart>
+    <!-- 商品详情 -->
+    <product-detail :food="selectFood" ref="foodView"></product-detail>
   </div>
 </template>
 
@@ -71,6 +82,7 @@
 import BScroll from 'better-scroll'
 import ShopCart from '@/components/shopCart/ShopCart'
 import CartControl from '@/components/cartControl/CartControl'
+import ProductDetail from '@/components/productDetail/ProductDetail'
 export default {
   data() {
     return {
@@ -80,7 +92,8 @@ export default {
       listHeight: [],
       menuScroll: {},
       foodScroll: {},
-      scrollY: 0
+      scrollY: 0,
+      selectFood: {}
     }
   },
   created() {
@@ -98,6 +111,17 @@ export default {
         }
       }
       return 0
+    },
+    selectFoods() {
+      let foods = []
+      this.goods.forEach((myfoods) => {
+        myfoods.spus.forEach((food) => {
+          if (food.count > 0) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     }
   },
   methods: {
@@ -128,7 +152,8 @@ export default {
     initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuScroll)
       this.foodScroll = new BScroll(this.$refs.foodScroll, {
-        probeType: 3
+        probeType: 3,
+        click: true
       })
       // foodScroll监听事件
       this.foodScroll.on('scroll', pos => {
@@ -150,17 +175,29 @@ export default {
       // console.log(this.listHeight)
     },
     selectMenu(index) {
-      console.log('000')
       let foodList = this.$refs.foodScroll.getElementsByClassName('food-list-hook')
       let element = foodList[index]
-      console.log(element)
       // 滚动到对应元素的位置
       this.foodScroll.scrollToElement(element, 250)
+    },
+    calculateCount(spus) {
+      let count = 0
+      spus.forEach((food) => {
+        if (food.count > 0) {
+          count += food.count
+        }
+      })
+      return count
+    },
+    showDetail(food) {
+      this.selectFood = food
+      this.$refs.foodView.showView()
     }
   },
   components: {
     ShopCart,
-    CartControl
+    CartControl,
+    ProductDetail
   }
 }
 </script>
