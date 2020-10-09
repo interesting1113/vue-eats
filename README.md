@@ -7,14 +7,14 @@ vue + vue-router + ES6 + axios + better-scroll
 HomePage
 <img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/home.png/>
 
-ShopCart
-<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/shopcart.png/>
+ShopCart. 
+<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/shopcart.png/>. 
 
-ProductDetail
-<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/detail.png/>
+ProductDetail. 
+<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/detail.png/>. 
 
-CommentPage
-<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/comment.png/>
+CommentPage. 
+<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/comment.png/>. 
 
 
 
