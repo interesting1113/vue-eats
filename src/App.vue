@@ -2,7 +2,9 @@
   <div id="app">
     <v-header :poiInfo="poiInfo"></v-header>
     <v-nav :commentNum="commentNum"></v-nav>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 

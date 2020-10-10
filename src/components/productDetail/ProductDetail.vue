@@ -7,7 +7,7 @@
             <img class="food-img" :src="food.picture"/>
             <span
                   class="close-bt icon-close"
-                  @click="closeView"></span>
+                  @click="showFlag=false"></span>
             <img class="share-bt" src="./img/share.png">
             <img class="more-bt" src="./img/more.png">
           </div>
@@ -97,9 +97,6 @@ export default {
           this.scroll.refresh()
         }
       })
-    },
-    closeView() {
-      this.showFlag = false
     },
     addProduct() {
       Vue.set(this.food, 'count', 1)

@@ -16,6 +16,10 @@ ProductDetail
 CommentPage
 <img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/comment.png/>
 
+<<<<<<< HEAD
+=======
+<img width="375" height="812" src=https://github.com/interesting1113/vue-eats/blob/master/src/common/img/WeChat3a1e701505bfd68f8955abc0d3b6c100.png/>
+>>>>>>> 4153c835b0191657a53e075d86c25dd8d627606c
 
 
 ## Project setup
